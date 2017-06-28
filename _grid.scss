@@ -1,7 +1,6 @@
-$font_size = if($base_font_size, $base_font_size, 16px);
-$breakpoint = if($bp, $bp, 850px);
-$unit = if($p, $p, 20px);
-$f = if($f, $f, 100%);
+$font_size: $base_font_size;
+$breakpoint: $bp;
+$unit: $p;
 
 @function rem($px, $base: $font_size) {
     @return ($px / $base) * 1rem;
@@ -173,35 +172,35 @@ $f = if($f, $f, 100%);
 }
 
 @mixin borders($sides : 'all', $color : $brand-main, $weight : 1px) {
-	@if $sides == 'all' {
-		[class*='--borders'] {
-			border: $weight $color solid;
-		}
-	} @else {
-		$sides: explode($sides, ' ');
-		@each $s in $sides {
-			[class*="--border-#{$s}"] {
-				border-#{$s}: $weight $color solid;
-			}
-		}
-	}
+    @if $sides == 'all' {
+        [class*='--borders'] {
+            border: $weight $color solid;
+        }
+    } @else {
+        $sides: explode($sides, ' ');
+        @each $s in $sides {
+            [class*="--border-#{$s}"] {
+                border-#{$s}: $weight $color solid;
+            }
+        }
+    }
 }
 
 @mixin grow($sizes : 'all', $sides : 'all', $v : $unit) {
-	$sizes: if($sizes == 'all', 'small md lg', $sizes);
-	$sizes: explode($sizes, ' ');
-	$sides: explode($sides, ' ');
-	$row: null;
-	@each $s in $sizes {
-		@if $s == 'small' {
-			$row : 1;
-		} @else {
-			$row: if($s == 'md', 2, 4);
-		}
-		$s : if($s == 'small', '', "-#{$s}");
-		@each $side in $sides {
-			@if $side == 'all' {
-				&--grow#{$s} {
+    $sizes: if($sizes == 'all', 'small md lg', $sizes);
+    $sizes: explode($sizes, ' ');
+    $sides: explode($sides, ' ');
+    $row: null;
+    @each $s in $sizes {
+        @if $s == 'small' {
+            $row : 1;
+        } @else {
+            $row: if($s == 'md', 2, 4);
+        }
+        $s : if($s == 'small', '', "-#{$s}");
+        @each $side in $sides {
+            @if $side == 'all' {
+                &--grow#{$s} {
                     @if($s == '-lg') {
                         padding: {
                             top: em($unit * $row) / 2;
@@ -219,13 +218,13 @@ $f = if($f, $f, 100%);
                             bottom: em($unit * $row);
                         }
                     }
-		        }
-			} @else {
-				&--grow#{$s}-#{$side} {
+                }
+            } @else {
+                &--grow#{$s}-#{$side} {
                     @if($s == '-lg') {
                         padding: {
-    		                #{$side}: em($unit * $row) / 2;
-    		            }
+                            #{$side}: em($unit * $row) / 2;
+                        }
                         @include breakpoint($breakpoint) {
                             padding: {
                                 #{$side}: em($unit * $row);
@@ -236,13 +235,13 @@ $f = if($f, $f, 100%);
                         #{$side}: em($unit * $row);
                     }
                     }
-		        }
-			}
-		}
-	}
+                }
+            }
+        }
+    }
 }
 
-@mixin shrink($unit) {
+@mixin shrink($unit: $unit) {
     [class*="shrink"] {
         @include normalize_padding;
     }
@@ -278,6 +277,30 @@ $f = if($f, $f, 100%);
             }
         }
     }
+    [class*="shrink-right-half"] {
+        padding: {
+            left: 0;
+            right: 0;
+        }
+        @include breakpoint($breakpoint) {
+            padding: {
+                left: 0;
+                right: em($unit);
+            }
+        }
+    }
+    [class*="shrink-left-half"] {
+        padding: {
+            left: 0;
+            right: 0;
+        }
+        @include breakpoint($breakpoint) {
+            padding: {
+                left: em($unit);
+                right: 0;
+            }
+        }
+    }
     [class*="shrink-right-double"] {
         @include breakpoint($breakpoint) {
             padding: {
@@ -295,23 +318,31 @@ $f = if($f, $f, 100%);
 }
 
 @mixin flex-align {  
-    [class~="align"] {
+    [class*="-align-start"] {
+        align-content: flex-start;
+        align-items: flex-start;
         display: flex;
         > * {
             width: $f;
             flex: 0 0 auto;
         }
     }
-    [class*="-align-start"] {
-        align-content: flex-start;
-        align-items: flex-start;
-    }
     [class*="-align-center"] {
         align-content: center;
         align-items: center;
+        display: flex;
+        > * {
+            width: $f;
+            flex: 0 0 auto;
+        }
     }
     [class*="-align-end"] {
         align-content: flex-end;
         align-items: flex-end;
+        display: flex;
+        > * {
+            width: $f;
+            flex: 0 0 auto;
+        }
     }
 }
