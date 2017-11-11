@@ -221,19 +221,19 @@ $unit: $p;
                 }
             } @else {
                 &--grow#{$s}-#{$side} {
-                    @if($s == '-lg') {
-                        padding: {
-                            #{$side}: em($unit * $row) / 2;
-                        }
-                        @include breakpoint($breakpoint) {
+                        @if($s == '-lg') {
                             padding: {
-                                #{$side}: em($unit * $row);
+                                #{$side}: em($unit * $row) / 2;
                             }
+                            @include breakpoint($breakpoint) {
+                                padding: {
+                                    #{$side}: em($unit * $row);
+                                }
+                            }
+                        } @else {
+                            padding: {
+                            #{$side}: em($unit * $row);
                         }
-                    } @else {
-                        padding: {
-                        #{$side}: em($unit * $row);
-                    }
                     }
                 }
             }
@@ -315,6 +315,14 @@ $unit: $p;
             }
         }
     }
+    [class*="shrink-fw"] {
+        @include breakpoint($max-width) {
+            padding: {
+                left: calc((100vw - #{$max-width}) / 2);
+                right: calc((100vw - #{$max-width}) / 2);
+            }
+        }
+    }
 }
 
 @mixin flex-align {  
@@ -344,5 +352,13 @@ $unit: $p;
             width: $f;
             flex: 0 0 auto;
         }
+    }
+}
+
+@mixin cover($pos: center, $size : cover) {
+    background: {
+        position: $pos;
+        size: $size;
+        repeat: no-repeat;
     }
 }
