@@ -72,6 +72,18 @@ $unit: $p;
     }
 }
 
+@mixin normalize_padding_half {
+    padding: {
+        left: 10px;
+        right: 10px;
+    }
+    @include breakpoint(640px) {
+        padding: {
+            left: em($unit);
+            right: em($unit);
+        }
+    }
+}
 
 @mixin normalize_sides {
     left: 10px;
@@ -137,7 +149,7 @@ $unit: $p;
         flex-wrap: nowrap;
         overflow: hidden;
     }
-    [class*="__cell"] {
+    [class*="__cell"], [class*="--cell"] {
         flex: 0 0 auto;
         width: 100%;
     }
@@ -302,15 +314,25 @@ $unit: $p;
         }
     }
     [class*="shrink-right-double"] {
+        padding: {
+            left: 0;
+            right: 0;
+        }
         @include breakpoint($breakpoint) {
             padding: {
+                left: 0;
                 right: em($unit*4);
             }
         }
     }
     [class*="shrink-left-double"] {
+        padding: {
+            left: 0;
+            right: 0;
+        }
         @include breakpoint($breakpoint) {
             padding: {
+                right: 0;
                 left: em($unit*4);
             }
         }
@@ -320,6 +342,22 @@ $unit: $p;
             padding: {
                 left: calc((100vw - #{$max-width}) / 2);
                 right: calc((100vw - #{$max-width}) / 2);
+            }
+        }
+    }
+    [class*="shrink-fw-right"] {
+        @include breakpoint($max-width) {
+            padding: {
+                left: em($p*2);
+                right: calc((100vw - #{$max-width}) / 2);
+            }
+        }
+    }
+    [class*="shrink-fw-left"] {
+        @include breakpoint($max-width) {
+            padding: {
+                right: em($p*2);
+                left: calc((100vw - #{$max-width}) / 2);
             }
         }
     }
@@ -361,4 +399,8 @@ $unit: $p;
         size: $size;
         repeat: no-repeat;
     }
+}
+
+@function lh_mb($fz, $lh) { 
+    @return ((em($fz) * ($lh)) - em($fz))*-1;
 }
